@@ -3,102 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best online food delivery services in india | Myonlinemeal.com</title>
+    <title>calculator using js</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" media="screen and (max-width: 960px)" href="phone.css">
 </head>
 <body>
-    <nav id="navbar">
-        <div id="logo">
-            <img src="front2img.png.jpg" alt="Myonlinemeal.com">
-        </div>
-        <ul>
-            <li class="items"><a href="#">Home</a></li>
-            <li class="items"><a href="#">Services</a></li>
-            <li class="items"><a href="#">About us</a></li>
-            <li class="items"><a href="#">Contact us</a></li>
-            <!-- <li class="items"><a href="#"></a></li> -->
-        </ul>
-
-    </nav>
-    <section id="home">
-        <h1 class="h-primary">Welcome to Myonlinemeal</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, ad?</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        <button class="btn">order now</button>
-    </section>
-    <setion class="services-container">
-    <h1 class="h-primary center">our services</h1>
-    <div id="services">
-        <div class="box">
-            <img src="logo.png" alt="">
-            <h2 class="h-secondary center">Food catering</h2>
-            <p class="center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem quia numquam Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae, recusandae temporibus repudiandae vitae, porro saepe illo nemo veniam, totam autem delectus dolorem quos?quo illum obcaecati. Perspiciatis atque, modi omnis laboriosam dolorum alias libero hic corporis a quisquam ducimus doloribus assumenda? Rem esse sed perspiciatis aliquid.</p>
-        </div>
-        <div class="box">
-            <img src="logo2.png" alt="">
-            <h2 class="h-secondary center">Bulk Ordering</h2>
-            <p class="center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem quia numquam Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti soluta atque quis nobis vitae quidem eum, dolor eligendi iure, optio sint tempore error.quo illum obcaecati. Perspiciatis atque, modi omnis laboriosam dolorum alias libero hic corporis a quisquam ducimus doloribus assumenda? Rem esse sed perspiciatis aliquid.</p>
-        </div>
-        <div class="box">
-            <img src="logo3.png" alt="">
-            <h2 class="h-secondary center">Food delivery</h2>
-            <p class="center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem quia Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, facilis. Perspiciatis natus dicta itaque recusandae, sapiente distinctio repudiandae maxime reiciendis consequatur accusantium delectus. numquam quo illum obcaecati. Perspiciatis atque, modi omnis laboriosam dolorum alias libero hic corporis a quisquam ducimus doloribus assumenda? Rem esse sed perspiciatis aliquid.</p>
-        </div>
-    </div>
-    </setion>
-    <section id="client-section">
-        <h1 class="h-primary center">Our Clients</h1>
-        <div id="clients">
-            <div class="clients-items">
-                <img src="footerlogo.png" alt="Our Clients">
-            </div>
-            <div class="clients-items">
-                <img src="footerlogo2.png" alt="Our Clients">
-            </div>
-            <div class="clients-items">
-                <img src="footerlogo3.png" alt="Our Clients">
-            </div>
-            <div class="clients-items">
-                <img src="footer logo4.png" alt="Our Clients">
-            </div>
-        </div>
-    </section>
-    <section id="contact-section">
-        <h1 class="h-primary center">Contact us</h1>
-        <div id="contact-box">
-            <form action="">
-                <div class="form-group">
-                  <label for="name">Name</label>  
-                  <input type="text" name="name" id="name"
-                   placeholder="enter your name">
-
+    <div class="container">
+        <div class="calculator">
+            <form>
+                <div class="display">
+                   <input type="text" name="display"> 
                 </div>
-                <div class="form-group">
-                  <label for="Email">Email</label>  
-                  <input type="text" name="name" id="Email"
-                   placeholder="enter your email">
-
+                <div>
+                <input type="button" value="AC" onclick="display.value ='' " class="operator">
+                <input type="button" value="DE" onclick="display.value = display.value.toString().slice(0,-1)" class="operator">
+                <input type="button" value="."  onclick="display.value +='.'" class="operator">
+                <input type="button" value="/"  onclick="display.value +='/'" class="operator">
                 </div>
-                <div class="form-group">
-                  <label for="Phone">Phone number</label>  
-                  <input type="text" name="name" id="Phone"
-                   placeholder="enter your Phone number">
-
+                <div>
+                    <input type="button" value="7" onclick="display.value+='7'">    
+                    <input type="button" value="8" onclick="display.value+='8'">
+                    <input type="button" value="9" onclick="display.value+='9'">
+                    <input type="button" value="*" onclick="display.value+='*'" class="operator">
                 </div>
-                <div class="form-group">
-                  <label for="Message">Message</label>  
-                  <textarea name="Message" id="Message" cols="30" rows="10">
-                  </textarea>
-
+                <div>
+                    <input type="button" value="4" onclick="display.value+='4'">    
+                    <input type="button" value="5" onclick="display.value+='5'">
+                    <input type="button" value="6" onclick="display.value+='6'">
+                    <input type="button" value="-" onclick="display.value+='-'" class="operator">
+                </div>
+                <div>
+                    <input type="button" value="1" onclick="display.value+='1'">    
+                    <input type="button" value="2" onclick="display.value+='2'">
+                    <input type="button" value="3" onclick="display.value+='3'">
+                    <input type="button" value="+" onclick="display.value+='+'" class="operator">
+                </div>
+                <div>
+                    <input type="button" value="00" onclick="display.value+='00'">    
+                    <input type="button" value="0" onclick="display.value+='0'">
+                    <input type="button" value="=" onclick="display.value = eval(display.value)"  class="equal operator">
+                    
                 </div>
             </form>
         </div>
-    </section>
-    <footer>
-        <div class="center">
-            Copy right &copy;www.myOnlinemeal.com. All rights reserved!
-        </div>
-    </footer>
+    </div>
+    
 </body>
 </html>
