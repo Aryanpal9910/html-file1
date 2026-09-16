@@ -718,12 +718,125 @@
           color:white;
         }
         .footer-item .eng{
+          text-align: center;
           margin: 0px 0px;
-          padding:0px 0px;
+          padding: 0px 0px;
           background-color: black;
           color: white;
         }
-        
+       /* ==========================
+   FAQ ANSWER
+========================== */
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 10px;
+    color: white;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.faqbox {
+    transition: background-color 0.3s ease,
+                transform 0.2s ease;
+}
+
+.faqbox:hover {
+    transform: scale(1.01);
+}
+
+.faqbox svg {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+
+/* ==========================
+   SECTION REVEAL
+========================== */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ==========================
+   BUTTON
+========================== */
+
+button {
+    transition: transform 0.2s ease,
+                background-color 0.2s ease;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+} 
+/* ==========================
+   NAVBAR SCROLL
+========================== */
+
+nav {
+    transition: 
+        background-color 0.3s ease,
+        padding 0.3s ease,
+        border-radius 0.3s ease;
+}
+
+nav.scrolled {
+    background-color: rgba(0, 0, 0, 0.90);
+    padding: 0 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+
+/* ==========================
+   BUTTON RIPPLE
+========================== */
+
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: rippleEffect 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes rippleEffect {
+
+    from {
+        width: 20px;
+        height: 20px;
+        opacity: 0.8;
+    }
+
+    to {
+        width: 400px;
+        height: 400px;
+        opacity: 0;
+    }
+
+}
           
     
     </style>
@@ -870,4 +983,560 @@
         </footer>
        
 </body>
+<script>
+// ==========================================
+// NETFLIX CLONE - PROFESSIONAL JAVASCRIPT
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    // ==========================================
+    // SELECTORS
+    // ==========================================
+
+    const faqBoxes = document.querySelectorAll(".faqbox");
+    const signupButtons = document.querySelectorAll(".content button, .btn");
+    const languageButtons = document.querySelectorAll(".eng");
+    const signOutButton = document.querySelector(".sign");
+    const nav = document.querySelector("nav");
+    const videos = document.querySelectorAll("video");
+    const sections = document.querySelectorAll(
+        ".first, .second, .third, .fourth, .faq"
+    );
+
+
+    // ==========================================
+    // 1. TOAST NOTIFICATION
+    // ==========================================
+
+    function showToast(message) {
+
+        const oldToast = document.querySelector(".toast");
+
+        if (oldToast) {
+            oldToast.remove();
+        }
+
+        const toast = document.createElement("div");
+
+        toast.className = "toast";
+        toast.textContent = message;
+
+        Object.assign(toast.style, {
+            position: "fixed",
+            bottom: "30px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#222",
+            color: "#fff",
+            padding: "14px 22px",
+            borderRadius: "8px",
+            fontSize: "15px",
+            zIndex: "9999",
+            boxShadow: "0 5px 20px rgba(0,0,0,0.4)",
+            opacity: "0",
+            transition: "opacity 0.3s ease"
+        });
+
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => {
+            toast.style.opacity = "1";
+        });
+
+        setTimeout(() => {
+
+            toast.style.opacity = "0";
+
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+
+        }, 2500);
+    }
+
+
+    // ==========================================
+    // 2. FAQ ACCORDION
+    // ==========================================
+
+    const faqAnswers = [
+        "Netflix is a streaming service that offers a wide variety of movies, TV shows, documentaries and more.",
+        "Netflix plans and pricing vary by country. You can choose a plan that suits your needs.",
+        "You can watch Netflix on smart TVs, smartphones, tablets, laptops, gaming consoles and supported streaming devices.",
+        "You can cancel your Netflix membership whenever you want from your account settings.",
+        "Netflix has movies, TV shows, documentaries, anime, kids' content and Netflix Originals.",
+        "Yes. Netflix provides profiles and parental controls to help create a kid-friendly viewing experience."
+    ];
+
+
+    function closeFAQ(box) {
+
+        box.classList.remove("active");
+
+        const answer = box.querySelector(".faq-answer");
+        const icon = box.querySelector("svg");
+
+        if (answer) {
+            answer.style.maxHeight = "0px";
+        }
+
+        if (icon) {
+            icon.style.transform = "rotate(0deg)";
+        }
+    }
+
+
+    function openFAQ(box) {
+
+        const answer = box.querySelector(".faq-answer");
+        const icon = box.querySelector("svg");
+
+        if (!answer) return;
+
+        box.classList.add("active");
+
+        answer.style.maxHeight = answer.scrollHeight + "px";
+
+        if (icon) {
+            icon.style.transform = "rotate(45deg)";
+        }
+    }
+
+
+    faqBoxes.forEach((box, index) => {
+
+        // Create answer only once
+        if (!box.querySelector(".faq-answer")) {
+
+            const answer = document.createElement("div");
+
+            answer.className = "faq-answer";
+            answer.textContent = faqAnswers[index] || "Information unavailable.";
+
+            box.appendChild(answer);
+        }
+
+
+        // Keyboard accessibility
+        box.setAttribute("tabindex", "0");
+        box.setAttribute("role", "button");
+
+
+        function toggleFAQ() {
+
+            const isOpen = box.classList.contains("active");
+
+            // Close every other FAQ
+            faqBoxes.forEach(otherBox => {
+
+                if (otherBox !== box) {
+                    closeFAQ(otherBox);
+                }
+
+            });
+
+
+            // Toggle current FAQ
+            if (isOpen) {
+                closeFAQ(box);
+            } else {
+                openFAQ(box);
+            }
+        }
+
+
+        box.addEventListener("click", toggleFAQ);
+
+
+        box.addEventListener("keydown", event => {
+
+            if (event.key === "Enter" || event.key === " ") {
+
+                event.preventDefault();
+
+                toggleFAQ();
+            }
+
+        });
+
+    });
+
+
+    // ==========================================
+    // 3. SIGN UP BUTTON
+    // ==========================================
+
+    signupButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            // Prevent multiple clicks
+            if (button.disabled) return;
+
+            const originalText = button.innerHTML;
+
+            button.disabled = true;
+
+            button.innerHTML = "Loading...";
+
+
+            setTimeout(() => {
+
+                button.innerHTML = originalText;
+                button.disabled = false;
+
+                showToast(
+                    "Welcome to Netflix Clone! 🎬 Sign-up functionality coming soon."
+                );
+
+            }, 1200);
+
+        });
+
+    });
+
+
+    // ==========================================
+    // 4. SIGN OUT
+    // ==========================================
+
+    if (signOutButton) {
+
+        signOutButton.addEventListener("click", () => {
+
+            const logout = confirm(
+                "Are you sure you want to sign out?"
+            );
+
+
+            if (!logout) return;
+
+
+            showToast("You have been signed out 👋");
+
+
+            // Scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        });
+
+    }
+
+
+    // ==========================================
+    // 5. LANGUAGE SWITCH
+    // ==========================================
+
+    function updateLanguage(button) {
+
+        const currentLanguage =
+            localStorage.getItem("language") || "English";
+
+        if (currentLanguage === "English") {
+
+            button.textContent = "हिन्दी";
+
+        } else {
+
+            button.textContent = "English";
+
+        }
+
+    }
+
+
+    // Load saved language
+    languageButtons.forEach(updateLanguage);
+
+
+    languageButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const currentLanguage =
+                localStorage.getItem("language") || "English";
+
+
+            const newLanguage =
+                currentLanguage === "English"
+                    ? "Hindi"
+                    : "English";
+
+
+            localStorage.setItem(
+                "language",
+                newLanguage
+            );
+
+
+            languageButtons.forEach(updateLanguage);
+
+
+            if (newLanguage === "Hindi") {
+
+                showToast("हिन्दी भाषा चुनी गई 🇮🇳");
+
+            } else {
+
+                showToast("English language selected 🇬🇧");
+
+            }
+
+        });
+
+    });
+
+
+    // ==========================================
+    // 6. VIDEO CONTROL
+    // ==========================================
+
+    function playVideo(video) {
+
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+
+
+        const playPromise = video.play();
+
+
+        if (playPromise !== undefined) {
+
+            playPromise.catch(() => {
+
+                console.log(
+                    "Video autoplay is blocked by the browser."
+                );
+
+            });
+
+        }
+
+    }
+
+
+    videos.forEach(video => {
+
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+
+
+        // Play when visible
+        const videoObserver =
+            new IntersectionObserver(
+                entries => {
+
+                    entries.forEach(entry => {
+
+                        if (entry.isIntersecting) {
+
+                            playVideo(video);
+
+                        } else {
+
+                            video.pause();
+
+                        }
+
+                    });
+
+                },
+                {
+                    threshold: 0.25
+                }
+            );
+
+
+        videoObserver.observe(video);
+
+    });
+
+
+    // ==========================================
+    // 7. SCROLL REVEAL ANIMATION
+    // ==========================================
+
+    sections.forEach(section => {
+
+        section.classList.add("reveal");
+
+    });
+
+
+    const revealObserver =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("show");
+
+                        // Stop observing after animation
+                        revealObserver.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+
+    sections.forEach(section => {
+
+        revealObserver.observe(section);
+
+    });
+
+
+    // ==========================================
+    // 8. NAVBAR SCROLL EFFECT
+    // ==========================================
+
+    function updateNavbar() {
+
+        if (!nav) return;
+
+
+        if (window.scrollY > 50) {
+
+            nav.classList.add("scrolled");
+
+        } else {
+
+            nav.classList.remove("scrolled");
+
+        }
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateNavbar,
+        { passive: true }
+    );
+
+
+    // Initial check
+    updateNavbar();
+
+
+    // ==========================================
+    // 9. BUTTON RIPPLE EFFECT
+    // ==========================================
+
+    document.querySelectorAll("button").forEach(button => {
+
+        button.addEventListener("click", event => {
+
+            const ripple = document.createElement("span");
+
+            ripple.className = "ripple";
+
+            const rect =
+                button.getBoundingClientRect();
+
+
+            ripple.style.left =
+                event.clientX - rect.left + "px";
+
+            ripple.style.top =
+                event.clientY - rect.top + "px";
+
+
+            button.appendChild(ripple);
+
+
+            setTimeout(() => {
+
+                ripple.remove();
+
+            }, 600);
+
+        });
+
+    });
+
+
+    // ==========================================
+    // 10. IMAGE LAZY LOADING
+    // ==========================================
+
+    document.querySelectorAll("img").forEach(img => {
+
+        if (!img.hasAttribute("loading")) {
+
+            img.setAttribute(
+                "loading",
+                "lazy"
+            );
+
+        }
+
+    });
+
+
+    // ==========================================
+    // 11. HANDLE IMAGE ERRORS
+    // ==========================================
+
+    document.querySelectorAll("img").forEach(img => {
+
+        img.addEventListener("error", () => {
+
+            console.warn(
+                "Image could not be loaded:",
+                img.src
+            );
+
+        });
+
+    });
+
+
+    // ==========================================
+    // 12. RESIZE FAQ HEIGHT
+    // ==========================================
+
+    window.addEventListener("resize", () => {
+
+        document
+            .querySelectorAll(".faqbox.active .faq-answer")
+            .forEach(answer => {
+
+                answer.style.maxHeight =
+                    answer.scrollHeight + "px";
+
+            });
+
+    });
+
+
+    // ==========================================
+    // 13. PAGE LOAD
+    // ==========================================
+
+    console.log(
+        "%c🎬 Netflix Clone loaded successfully!",
+        "font-size:16px;font-weight:bold;"
+    );
+
+});
+</script>
+
 </html>
+
