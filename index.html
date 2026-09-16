@@ -1,51 +1,574 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>calculator using js</title>
-    <link rel="stylesheet" href="style.css">
+
+    <title>Modern Calculator</title>
+
+    <style>
+        /* =========================
+           RESET
+        ========================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        /* =========================
+           BODY
+        ========================== */
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(
+                135deg,
+                #141e30,
+                #243b55
+            );
+        }
+
+        /* =========================
+           CALCULATOR
+        ========================== */
+
+        .calculator {
+            width: 350px;
+            padding: 25px;
+
+            border-radius: 25px;
+
+            background: #1b1b1b;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.05);
+        }
+
+        /* =========================
+           TITLE
+        ========================== */
+
+        .title {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 18px;
+
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           DISPLAY
+        ========================== */
+
+        .display {
+            width: 100%;
+            height: 85px;
+
+            margin-bottom: 20px;
+
+            border-radius: 15px;
+
+            background: #101010;
+
+            display: flex;
+            align-items: center;
+
+            padding: 10px 15px;
+
+            box-shadow:
+                inset 0 3px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .display input {
+            width: 100%;
+            height: 100%;
+
+            border: none;
+            outline: none;
+
+            background: transparent;
+
+            color: #ffffff;
+
+            text-align: right;
+
+            font-size: 35px;
+            font-weight: 500;
+        }
+
+        /* =========================
+           BUTTON ROW
+        ========================== */
+
+        .buttons {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 12px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================== */
+
+        button {
+            height: 60px;
+
+            border: none;
+            outline: none;
+
+            border-radius: 15px;
+
+            background: #292929;
+
+            color: white;
+
+            font-size: 20px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.1s,
+                background 0.2s,
+                box-shadow 0.2s;
+        }
+
+        button:hover {
+            background: #383838;
+        }
+
+        button:active {
+            transform: scale(0.92);
+        }
+
+        /* =========================
+           OPERATORS
+        ========================== */
+
+        .operator {
+            background: #ff9500;
+            color: white;
+        }
+
+        .operator:hover {
+            background: #ffab2e;
+        }
+
+        /* =========================
+           SPECIAL BUTTONS
+        ========================== */
+
+        .special {
+            background: #a5a5a5;
+            color: #111;
+        }
+
+        .special:hover {
+            background: #c2c2c2;
+        }
+
+        /* =========================
+           EQUAL BUTTON
+        ========================== */
+
+        .equal {
+            background: #00a86b;
+        }
+
+        .equal:hover {
+            background: #00c77d;
+        }
+
+        /* =========================
+           ZERO BUTTON
+        ========================== */
+
+        .zero {
+            grid-column: span 2;
+        }
+
+        /* =========================
+           ERROR
+        ========================== */
+
+        .error {
+            color: #ff5555 !important;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 400px) {
+
+            .calculator {
+                width: 92%;
+                padding: 20px;
+            }
+
+            button {
+                height: 55px;
+                font-size: 18px;
+            }
+
+            .display {
+                height: 75px;
+            }
+
+            .display input {
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="calculator">
-            <form>
-                <div class="display">
-                   <input type="text" name="display"> 
-                </div>
-                <div>
-                <input type="button" value="AC" onclick="display.value ='' " class="operator">
-                <input type="button" value="DE" onclick="display.value = display.value.toString().slice(0,-1)" class="operator">
-                <input type="button" value="."  onclick="display.value +='.'" class="operator">
-                <input type="button" value="/"  onclick="display.value +='/'" class="operator">
-                </div>
-                <div>
-                    <input type="button" value="7" onclick="display.value+='7'">    
-                    <input type="button" value="8" onclick="display.value+='8'">
-                    <input type="button" value="9" onclick="display.value+='9'">
-                    <input type="button" value="*" onclick="display.value+='*'" class="operator">
-                </div>
-                <div>
-                    <input type="button" value="4" onclick="display.value+='4'">    
-                    <input type="button" value="5" onclick="display.value+='5'">
-                    <input type="button" value="6" onclick="display.value+='6'">
-                    <input type="button" value="-" onclick="display.value+='-'" class="operator">
-                </div>
-                <div>
-                    <input type="button" value="1" onclick="display.value+='1'">    
-                    <input type="button" value="2" onclick="display.value+='2'">
-                    <input type="button" value="3" onclick="display.value+='3'">
-                    <input type="button" value="+" onclick="display.value+='+'" class="operator">
-                </div>
-                <div>
-                    <input type="button" value="00" onclick="display.value+='00'">    
-                    <input type="button" value="0" onclick="display.value+='0'">
-                    <input type="button" value="=" onclick="display.value = eval(display.value)"  class="equal operator">
-                    
-                </div>
-            </form>
+
+    <div class="calculator">
+
+        <div class="title">
+            Calculator
         </div>
+
+        <!-- Display -->
+        <div class="display">
+            <input
+                type="text"
+                id="display"
+                readonly
+                placeholder="0"
+            >
+        </div>
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <!-- Row 1 -->
+            <button
+                class="special"
+                onclick="clearDisplay()">
+                AC
+            </button>
+
+            <button
+                class="special"
+                onclick="deleteLast()">
+                DE
+            </button>
+
+            <button
+                class="special"
+                onclick="percentage()">
+                %
+            </button>
+
+            <button
+                class="operator"
+                onclick="appendValue('/')">
+                ÷
+            </button>
+
+
+            <!-- Row 2 -->
+            <button onclick="appendValue('7')">
+                7
+            </button>
+
+            <button onclick="appendValue('8')">
+                8
+            </button>
+
+            <button onclick="appendValue('9')">
+                9
+            </button>
+
+            <button
+                class="operator"
+                onclick="appendValue('*')">
+                ×
+            </button>
+
+
+            <!-- Row 3 -->
+            <button onclick="appendValue('4')">
+                4
+            </button>
+
+            <button onclick="appendValue('5')">
+                5
+            </button>
+
+            <button onclick="appendValue('6')">
+                6
+            </button>
+
+            <button
+                class="operator"
+                onclick="appendValue('-')">
+                −
+            </button>
+
+
+            <!-- Row 4 -->
+            <button onclick="appendValue('1')">
+                1
+            </button>
+
+            <button onclick="appendValue('2')">
+                2
+            </button>
+
+            <button onclick="appendValue('3')">
+                3
+            </button>
+
+            <button
+                class="operator"
+                onclick="appendValue('+')">
+                +
+            </button>
+
+
+            <!-- Row 5 -->
+            <button
+                class="zero"
+                onclick="appendValue('0')">
+                0
+            </button>
+
+            <button onclick="appendValue('.')">
+                .
+            </button>
+
+            <button
+                class="equal"
+                onclick="calculate()">
+                =
+            </button>
+
+        </div>
+
     </div>
-    
+
+
+    <script>
+
+        /* =========================
+           GET DISPLAY
+        ========================== */
+
+        const display = document.getElementById("display");
+
+
+        /* =========================
+           ADD VALUE
+        ========================== */
+
+        function appendValue(value) {
+
+            // If display contains error
+            if (display.value === "Error") {
+                display.value = "";
+                display.classList.remove("error");
+            }
+
+            display.value += value;
+        }
+
+
+        /* =========================
+           CLEAR DISPLAY
+        ========================== */
+
+        function clearDisplay() {
+
+            display.value = "";
+
+            display.classList.remove("error");
+        }
+
+
+        /* =========================
+           DELETE LAST CHARACTER
+        ========================== */
+
+        function deleteLast() {
+
+            if (display.value === "Error") {
+                clearDisplay();
+                return;
+            }
+
+            display.value =
+                display.value.slice(0, -1);
+        }
+
+
+        /* =========================
+           CALCULATE
+        ========================== */
+
+        function calculate() {
+
+            try {
+
+                if (display.value.trim() === "") {
+                    return;
+                }
+
+                /*
+                    eval() is being used here
+                    because this is a simple
+                    calculator project.
+                */
+
+                let result = eval(display.value);
+
+                if (!isFinite(result)) {
+                    throw new Error();
+                }
+
+                display.value = result;
+
+            }
+
+            catch (error) {
+
+                display.value = "Error";
+
+                display.classList.add("error");
+
+            }
+        }
+
+
+        /* =========================
+           PERCENTAGE
+        ========================== */
+
+        function percentage() {
+
+            try {
+
+                if (display.value === "") {
+                    return;
+                }
+
+                let value =
+                    parseFloat(display.value);
+
+                display.value =
+                    value / 100;
+
+            }
+
+            catch (error) {
+
+                display.value = "Error";
+
+            }
+        }
+
+
+        /* =========================
+           KEYBOARD SUPPORT
+        ========================== */
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                const key = event.key;
+
+
+                /* Numbers */
+
+                if (
+                    key >= "0" &&
+                    key <= "9"
+                ) {
+
+                    appendValue(key);
+                }
+
+
+                /* Operators */
+
+                else if (
+                    key === "+" ||
+                    key === "-" ||
+                    key === "*" ||
+                    key === "/"
+                ) {
+
+                    appendValue(key);
+                }
+
+
+                /* Decimal */
+
+                else if (key === ".") {
+
+                    appendValue(".");
+                }
+
+
+                /* Enter */
+
+                else if (
+                    key === "Enter" ||
+                    key === "="
+                ) {
+
+                    calculate();
+                }
+
+
+                /* Backspace */
+
+                else if (
+                    key === "Backspace"
+                ) {
+
+                    deleteLast();
+                }
+
+
+                /* Escape */
+
+                else if (
+                    key === "Escape"
+                ) {
+
+                    clearDisplay();
+                }
+
+
+                /* Percentage */
+
+                else if (key === "%") {
+
+                    percentage();
+                }
+
+            }
+        );
+
+    </script>
+
 </body>
 </html>
+```
